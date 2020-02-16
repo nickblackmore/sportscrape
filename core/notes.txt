@@ -1,0 +1,16 @@
+TO DO:
+
+CURRENT
+---------
+1. ~~Find a more efficient way to create the sql data base. fastest way: rows added to sql table as they are scraped.~~
+2. Create a new player_scrape and schema for pitchers
+3. Create a way to deal with jr. and senior
+
+
+FUTURE
+---------
+- Add NFL functionality
+- Create Ipython/Jupyter notebooks that have data analysis and showcase how th project works.
+- Create way for users to download csv/excel data.
+- Upload to github,
+
