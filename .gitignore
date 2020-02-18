@@ -1,5 +1,5 @@
 # Ignore these folders
-.DS_Store/
-.idea/
+.DS_Store/*
+.idea/*
 .idea/workspace.xml
-__pycache__/
+__pycache__/*
