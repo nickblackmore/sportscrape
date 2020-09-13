@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 import re
 import string
-
+### This file will remain mostly the same during refactor
 
 from add_rows_to_db import mlb_add_to_all_players_db, nfl_add_to_all_players_db
 
