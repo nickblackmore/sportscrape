@@ -2,11 +2,13 @@ import pandas as pd
 import requests
 from bs4 import BeautifulSoup
 import re
+import string
+
 
 from add_rows_to_db import mlb_add_to_all_players_db, nfl_add_to_all_players_db
 
 
-alphabet = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+alphabet = list(string.ascii_lowercase)
 
 
 def mlb_get_players_table_by_letter(letter):

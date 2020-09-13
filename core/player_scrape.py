@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from abc import ABC
 
 
+
 def to_numeric(df):
     """This should be split up so that it can take column names as arguments to make it more pythonic. Will most likely
     make this a static method of the Athlete class at some point."""
