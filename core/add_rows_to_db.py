@@ -162,12 +162,12 @@ def nfl_stat_builder(db="sqlite", database="", destination_table="nfl_wrs_1994",
 
         nfl_players = RosterConnection(db=database, table="all_nfl_players_table")
 
-        df = nfl_players.special_select(column="Position", position=position, last_year=last_year)
+        df = nfl_players.special_select(column="Position", value=position, last_year=last_year)
 
         players = list(df['Name'])
+        print(players)
         player_url = list(df['HREF'])
         HOF = list(df['HOF'])
-        print(HOF[0])
 
         # This will use the code from player_scrape.py to return a list of pandas dataframes containing all Standard
         # Batting data available for the player's entire mlb career.
@@ -180,7 +180,7 @@ def nfl_stat_builder(db="sqlite", database="", destination_table="nfl_wrs_1994",
             try:
                 player_data = player.get_summary(position, HOF[i])
                 player_df = pd.DataFrame([player_data], columns=['GS', 'Tgt', 'Rec', 'Yds', 'Y/R', 'TD', '1D', 'Lng', 'R/G', 'Y/G', 'Ctch%',
-                                                        'Y/Tgt', 'Name', 'HOF'])
+                                                            'Y/Tgt', 'Name', 'HOF'])
                 if isinstance(player_df, pd.DataFrame):
                     player_df.to_sql(destination_table, con=sql_engine, if_exists="append")
                     print(player.name)
@@ -197,16 +197,58 @@ def nfl_stat_builder(db="sqlite", database="", destination_table="nfl_wrs_1994",
 
 
 
-errors = nfl_stat_builder(database="/Users/nickblackmore/personal_projects/sportscrape/_database_creation/core/Databases/NFL.db",
-    position='WR', last_year=1994)
+#errors = nfl_stat_builder(database="/Users/nickblackmore/personal_projects/sportscrape/sportscrape/core/Databases/NFL.db", position='WR', last_year=1994)
 
+def get_annual_stats(db="sqlite", database="", destination_table="nfl_wrs_1994_annual", position="", last_year=0):
+    if not os.path.isfile(database):
+        print("Creating new database!")
+    sql_engine = create_engine(db + ":///" + database)
+
+    nfl_players = RosterConnection(db=database, table="all_nfl_players_table")
+
+    df = nfl_players.special_select(column="Position", value=position, last_year=last_year)
+
+    players = list(df['Name'])
+    print(players)
+    player_url = list(df['HREF'])
+
+
+    # This will use the code from player_scrape.py to return a list of pandas dataframes containing all Standard
+    # Batting data available for the player's entire mlb career.
+    i = 0
+    errors = []
+
+    while i < len(players):
+
+        player = NFL(players[i], player_url=player_url[i])  #Returns a pandas dataframe of all of the annual batting data
+        try:
+            player_data = player.get_receiver_stats()
+            player_df = pd.DataFrame(player_data, columns=['Year', 'Age', 'Tm', 'Pos', 'No.', 'G', 'GS', 'Tgt', 'Rec', 'Yds', 'Y/R', 'TD', '1D', 'Lng', 'R/G',
+                                                             'Y/G',  'Ctch%', 'Y/Tgt', 'name'
+                                                           ])
+            print('success')
+            if isinstance(player_df, pd.DataFrame):
+                player_df.to_sql(destination_table, con=sql_engine, if_exists="append")
+                print(player.name)
+
+        except:
+            errors.append(player.name)
+            print("error ", player.name)
+
+        i += 1
+
+    sql_engine.dispose()
+
+    return errors
+
+errors = get_annual_stats(database="/Users/nickblackmore/personal_projects/sportscrape/sportscrape/core/Databases/NFL.db", position='WR', last_year=1994)
 
 """
 Database schema:
 
 NFL.db
     -- all_nfl_players_table (
-    -- nfl_wrs (empty)
+    -- nfl_wrs_1994_annual (Year by Year Stats for wide receivers)
     -- nfl_wrs_1994
 
 
@@ -224,5 +266,5 @@ def delete_sqlite_table(db, table=''):
     conn.commit()
 
 
-#delete_sqlite_table("/Users/nickblackmore/personal_projects/sportscrape/_database_creation/core/Databases/NFL.db",
-                    #table="nfl_wrs")
+#delete_sqlite_table("/Users/nickblackmore/personal_projects/sportscrape/sportscrape/core/Databases/NFL.db",
+                    #table="all_nfl_players_table")

@@ -48,16 +48,19 @@ class RosterConnection():
 
 
 
+#x = read_all_from_db(abs_path= "/Users/nickblackmore/personal_projects/sportscrape/sportscrape/core/Databases/NFL.db")
+#print(x[x['Name'] == 'Calvin Johnson '])
 
-"""
-Example:
 
-nfl_players = RosterConnection(db="/Users/nickblackmore/personal_projects/sportscrape/_database_creation/core/Databases/NFL.db",
-                               table="all_nfl_players_table")
+#Example:
 
-df = nfl_players.special_select(column="Position", value="WR")
+#nfl_players = RosterConnection(db="/Users/nickblackmore/personal_projects/sportscrape/sportscrape/core/Databases/NFL.db",
+                               #table="all_nfl_players_table")
 
-"""
+
+#df = nfl_players.special_select(column="Position", value="WR")
+
+#print(df.head())
 
 
 

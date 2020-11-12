@@ -148,7 +148,7 @@ def nfl_get_player_list(letter, abs_path, output="db", start_index=0):
 
             data = [start_index, position, name, first_year, last_year, HOF, url] #corresponds with the row to be added to the db
             nfl_add_to_all_players_db(abs_path=abs_path, row_vals=data)
-
+            print(name)
             x += 1
             start_index += 1
         return start_index
@@ -205,4 +205,5 @@ def get_all_nfl_players(abs_path, output='db'):
         return pd.DataFrame(full_list, columns = ["Name", "Position" "Start", "End", "HOF?", "HREF"])
 
 
-#get_all_nfl_players(abs_path="/Users/nickblackmore/personal_projects/sportscrape/_database_creation/core/Databases/NFL.db")
+#get_all_nfl_players(abs_path="/Users/nickblackmore/personal_projects/sportscrape/sportscrape/core/Databases/NFL.db")
+

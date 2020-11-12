@@ -69,7 +69,7 @@ class Athlete(ABC):
         row_data = []
         for tr in majors_table_rows:    # gets the data from each tr, essentially getting the stats for each year. Only gets major league data right now
             row = [td.get_text() for td in tr]  # creates a list of each data entry in the given table row
-            row_data.append(row)
+            row_data.append(row[0:num_columns - outer_level])
 
         pd_table = pd.DataFrame(row_data, columns=column_headings)
 
@@ -198,18 +198,25 @@ class NFL(Athlete):
     def get_receiver_stats(self):
         return self.get_table(self.soup, "receiving_and_rushing", self.num_columns, classes=["full_table", ""], outer_level=8)
 
-#davante = NFL("Davante Adams", player_url= "/players/A/AdamDa01.htm")
+#davante = NFL("Calvin Johnson", player_url= "/players/J/JohnCa00.htm")
 #table = davante.get_summary("WR", "No")
 #print(table)
+
+# = NFL("Calvin Johnson", player_url= "/players/J/JohnCa00.htm")
+#table = davante.get_summary('WR', 'No')
 
 
 ########### Below is currently used in the other modules#########
 
 
+#davante = NFL("Calvin Johnson", player_url= "/players/J/JohnCa00.htm")
+#data = davante.get_receiver_stats()
+#player_df = pd.DataFrame(data, columns=['GS', 'Tgt', 'Rec', 'Yds', 'Y/R', 'TD', '1D', 'Lng', 'R/G', 'Y/G', 'Ctch%',
+#'Y/Tgt', 'Name', 'HOF'])
+#print(player_df)
 
 
-
-def get_player_data_pandas(name, sport="baseball", return_list=True):
+def get_player_data_pandas(name, sport="football", return_list=True):
 
     """Currently supplies the functionality to the other modules. Will eventually be phased out and functionality will
     be taken over by the 'Athlete' family of classes
