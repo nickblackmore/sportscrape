@@ -267,4 +267,4 @@ def delete_sqlite_table(db, table=''):
 
 
 #delete_sqlite_table("/Users/nickblackmore/personal_projects/sportscrape/sportscrape/core/Databases/NFL.db",
-                    #table="all_nfl_players_table")
+                    #table="nfl_wrs_1994_annual")
